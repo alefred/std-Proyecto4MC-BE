@@ -1,0 +1,7 @@
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\bin\Debug\CFFLORES.TestRest.dll
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\bin\Debug\CFFLORES.TestRest.pdb
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\bin\Debug\es\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\obj\Debug\CFFLORES.TestRest.csprojResolveAssemblyReference.cache
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\obj\Debug\CFFLORES.TestRest.dll
+C:\Users\Manuel\Documents\UPC\Distribuidos de Sistemas\CFFLORES\CFFLORES.TestRest\obj\Debug\CFFLORES.TestRest.pdb
