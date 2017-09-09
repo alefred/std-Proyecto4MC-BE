@@ -15,7 +15,7 @@ namespace WebServicesBares
     {
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Pedido?Gbusqueda={busqueda}&Gvalor={Valor}&Gfecha={fecha}&Glocal={locañ}", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Pedido?Gbusqueda={busqueda}&Gvalor={Valor}&Gfecha={fecha}&Glocal={local}", ResponseFormat = WebMessageFormat.Json)]
         List<EPedido> ListarPedido(string busqueda, string Valor, string fecha, string local);
 
         [OperationContract]

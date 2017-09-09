@@ -4,3 +4,8 @@ C:\Users\Manuel\Documents\Visual Studio 2015\Projects\Bares\WebServicesBares\Web
 C:\Users\Manuel\Documents\Visual Studio 2015\Projects\Bares\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.dll
 C:\Users\Manuel\Documents\Visual Studio 2015\Projects\Bares\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.pdb
 C:\Users\Manuel\Documents\Visual Studio 2015\Projects\Bares\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.csprojResolveAssemblyReference.cache
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.dll.config
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.dll
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.pdb
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.dll
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.pdb
