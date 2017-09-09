@@ -28,10 +28,10 @@ namespace WebServicesBares
              3: Por Serie
              4: Por Id
              */
-            if (String.IsNullOrEmpty(busqueda)) busqueda = "1";
-            if (String.IsNullOrEmpty(Valor)) Valor = "1";
-            throw new WebFaultException<string>("La Búsqueda por DNI debe contener 8 Caracteres", HttpStatusCode.InternalServerError);
-            if (busqueda.Equals("2") && Valor.Length != 8)//Busqueda por DNI
+            //if (String.IsNullOrEmpty(busqueda)) busqueda = "1";
+            //if (String.IsNullOrEmpty(Valor)) Valor = "1";
+            //throw new WebFaultException<string>("La Búsqueda por DNI debe contener 8 Caracteres", HttpStatusCode.InternalServerError);
+           /* if (busqueda.Equals("2") && Valor.Length != 8)//Busqueda por DNI
             {
                 throw new WebFaultException<string>("La Búsqueda por DNI debe contener 8 Caracteres", HttpStatusCode.InternalServerError);
             }
@@ -40,9 +40,9 @@ namespace WebServicesBares
             {
                 throw new WebFaultException<string>("La Búsqueda por Serie debe contener 5 Caracteres", HttpStatusCode.InternalServerError);
             }
-
+            */
             List<EPedido> obobVenta = new List<EPedido>();
-            obobVenta = daopedido.Listar(busqueda, Valor, fecha,local);
+            obobVenta = daopedido.Listar(busqueda, local, Valor, fecha);
 
             if (obobVenta.Count == 0)
             {

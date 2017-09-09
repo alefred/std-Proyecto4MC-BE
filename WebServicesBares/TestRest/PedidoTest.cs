@@ -16,9 +16,9 @@ namespace CFFLORES.TestRest
         public void TestListar()
         {
 
-            string busqueda = "2";
+            string busqueda = "1";
             string valor = "25260";
-            string fecha = "20161203";
+            string fecha = "20170909";
             string local = "1";
             try
             {

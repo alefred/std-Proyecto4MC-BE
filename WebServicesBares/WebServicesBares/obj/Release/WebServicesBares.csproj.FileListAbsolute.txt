@@ -1,0 +1,6 @@
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.dll.config
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.dll
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.pdb
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Release\WebServicesBares.csprojResolveAssemblyReference.cache
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Release\WebServicesBares.dll
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Release\WebServicesBares.pdb

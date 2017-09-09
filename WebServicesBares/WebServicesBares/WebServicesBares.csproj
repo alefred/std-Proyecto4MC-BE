@@ -83,6 +83,7 @@
     <Folder Include="Errores\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\WSBare - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
