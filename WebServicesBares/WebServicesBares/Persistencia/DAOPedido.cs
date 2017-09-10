@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -9,8 +11,7 @@ namespace WebServicesBares.Persistencia
 {
     public class DAOPedido
     {
-        //private string cadenaconexion = "Data Source=LAPTOP-C3204AHJ\\SQLEXPRESS;Initial Catalog=CFFLORESDB;Integrated Security=True";
-        private string cadenaconexion = "Data Source=azrdb03.database.windows.net;Initial Catalog=arsDB03;Persist Security Info=True;User ID=alefred;Password=Pa$$w0rd";
+        private static string cadenaconexion = ConfigurationManager.ConnectionStrings["CnxBDAppBar"].ToString();
 
         public List<EPedido> Listar(string busqueda, string local, string Valor, string fecha)
         {
@@ -28,9 +29,9 @@ namespace WebServicesBares.Persistencia
             {
                 using (SqlConnection con = new SqlConnection(cadenaconexion))
                 {
-                    con.Open();
                     using (SqlCommand com = new SqlCommand(sql, con))
                     {
+                        con.Open();
                         using (SqlDataReader dr = com.ExecuteReader())
                         {
                             while (dr.Read())
@@ -59,11 +60,10 @@ namespace WebServicesBares.Persistencia
             return lista;
         }
 
-
         public int Insertar(EPedido venta)
         {
-
-            string sql = "insert into Pedido ([idUsuario],[idLocal],[fechaPedido],[estadoPedido],[tiempoEsperado],[tiempoAtendido])                 values (@idUsuario, @idLocal, GETDATE(), @estadoPedido, @tiempoEsperado, @tiempoAtendido)";
+            string sql = "insert into Pedido ([idUsuario],[idLocal],[fechaPedido],[estado],[tiempoEsperado]) " +
+                "values (@idUsuario, @idLocal, GETDATE(), @estadoPedido, @tiempoEsperado)";
 
             int idventa = 0;
 
@@ -76,15 +76,13 @@ namespace WebServicesBares.Persistencia
                     {
                         com.Parameters.Add(new SqlParameter("@idUsuario", venta.idUsuario));
                         com.Parameters.Add(new SqlParameter("@idLocal", venta.idLocal));
-                        com.Parameters.Add(new SqlParameter("@fechaPedido", venta.fechaPedido));
                         com.Parameters.Add(new SqlParameter("@estadoPedido", venta.estadoPedido));
                         com.Parameters.Add(new SqlParameter("@tiempoEsperado", venta.tiempoEsperado));
-                        com.Parameters.Add(new SqlParameter("@tiempoAtendido", venta.tiempoAtendido));
                         com.ExecuteNonQuery();
 
                     }
 
-                    using (SqlCommand com = new SqlCommand("select max(idventa) from venta", con))
+                    using (SqlCommand com = new SqlCommand("select max(idPedido) from pedido", con))
                     {
                         using (SqlDataReader dr = com.ExecuteReader())
                         {
@@ -108,6 +106,60 @@ namespace WebServicesBares.Persistencia
 
         }
 
-        
+        public int Update(EPedido venta)
+        {
+            string qSql = "update pedido set estado = 2, tiempoAtendido =  @tiempoAtendido where idpedido = @id";
+            int iRowsModified = 0;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaconexion))
+                {
+                    using (SqlCommand cmd = new SqlCommand(qSql, con))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.Add(new SqlParameter("@tiempoAtendido", venta.tiempoAtendido));
+                        cmd.Parameters.Add(new SqlParameter("@id", venta.idPedido));
+
+                        con.Open();
+                        iRowsModified = cmd.ExecuteNonQuery();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return iRowsModified;
+        }
+
+        public int Anular(int ventaId)
+        {
+            string qSql = "update pedido set estado = 3 where idpedido = @id";
+            int iRowsModified = 0;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaconexion))
+                {
+                    using (SqlCommand cmd = new SqlCommand(qSql, con))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.Add(new SqlParameter("@id", ventaId));
+
+                        con.Open();
+                        iRowsModified = cmd.ExecuteNonQuery();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return iRowsModified;
+        }
+
     }
 }

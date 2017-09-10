@@ -9,3 +9,8 @@ C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\W
 C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.pdb
 C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.dll
 C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.pdb
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.dll.config
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.dll
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.pdb
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.dll
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.pdb

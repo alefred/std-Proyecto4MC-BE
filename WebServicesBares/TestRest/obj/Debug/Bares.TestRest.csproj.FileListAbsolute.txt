@@ -10,3 +10,9 @@ C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\CFF
 C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\CFFLORES.TestRest.dll
 C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\CFFLORES.TestRest.pdb
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\CFFLORES.TestRest.dll
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\CFFLORES.TestRest.pdb
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\es\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\CFFLORES.TestRest.dll
+C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\CFFLORES.TestRest.pdb

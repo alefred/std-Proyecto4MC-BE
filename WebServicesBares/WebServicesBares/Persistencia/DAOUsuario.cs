@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,7 @@ namespace WebServicesBares.Persistencia
 {
     public class DAOUsuario
     {
-        //private string cadenaconexion = "Data Source=LAPTOP-C3204AHJ\\SQLEXPRESS;Initial Catalog=CFFLORESDB;Integrated Security=True";
-        private string cadenaconexion = "Data Source=azrdb03.database.windows.net;Initial Catalog=arsDB03;Persist Security Info=True;User ID=alefred;Password=Pa$$w0rd";
+        private static string cadenaconexion = ConfigurationManager.ConnectionStrings["CnxBDAppBar"].ToString();
 
         public List<EUsuario> Listar(string busqueda)
         {

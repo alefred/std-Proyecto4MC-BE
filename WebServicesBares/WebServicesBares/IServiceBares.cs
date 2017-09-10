@@ -13,6 +13,7 @@ namespace WebServicesBares
     [ServiceContract]
     public interface IServiceBares
     {
+        #region "Pedido"
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Pedido?Gbusqueda={busqueda}&Gvalor={Valor}&Gfecha={fecha}&Glocal={local}", ResponseFormat = WebMessageFormat.Json)]
@@ -21,6 +22,16 @@ namespace WebServicesBares
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "Pedido", ResponseFormat = WebMessageFormat.Json)]
         int InsertarPedido(EPedido beventa);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "Pedido", ResponseFormat = WebMessageFormat.Json)]
+        int UpdatePedido(EPedido beventa);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "Pedido/{codigo}", ResponseFormat = WebMessageFormat.Json)]
+        int AnularPedido(string codigo);
+
+        #endregion
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Usuario?Gbusqueda={busqueda}", ResponseFormat = WebMessageFormat.Json)]

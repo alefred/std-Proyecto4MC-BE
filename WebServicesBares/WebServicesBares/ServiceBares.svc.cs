@@ -19,6 +19,8 @@ namespace WebServicesBares
         private DAOUsuario daoUsuario = new DAOUsuario();
         private DAOProducto daoProducto = new DAOProducto();
         private DAOLocal daoLocal = new DAOLocal();
+
+        #region "Pedido"
         public List<EPedido> ListarPedido(string busqueda, string Valor, string fecha, string local)
         {
             /*
@@ -59,7 +61,6 @@ namespace WebServicesBares
 
         public int InsertarPedido(EPedido beventa)
         {
-
             try
             {
                 if (beventa == null)
@@ -72,11 +73,48 @@ namespace WebServicesBares
             catch (WebException ex)
             {
                 throw new WebFaultException<string>(ex.ToString(), HttpStatusCode.InternalServerError);
-
             }
-
-
         }
+
+        public int UpdatePedido(EPedido beventa)
+        {
+            try
+            {
+                if (beventa == null)
+                    return 0;
+
+                int iRowsUpdate = -1;
+                iRowsUpdate = daopedido.Update(beventa);
+                return iRowsUpdate;
+            }
+            catch (WebException ex)
+            {
+                throw new WebFaultException<string>(ex.ToString(), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public int AnularPedido(string codigo)
+        {
+            try
+            {
+                int id = 0;
+
+                int.TryParse(codigo, out id);
+
+                if (id == 0)
+                    return 0;
+
+                int idAnulado = -1;
+                idAnulado = daopedido.Anular(id);
+                return idAnulado;
+            }
+            catch (WebException ex)
+            {
+                throw new WebFaultException<string>(ex.ToString(), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        #endregion
 
         public List<EUsuario> ListarUsuario(string busqueda)
         {
