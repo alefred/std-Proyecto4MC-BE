@@ -60,6 +60,7 @@ namespace CFFLORES.TestRest
                     Assert.AreEqual("No Existe la Venta según los parámetros ingresados", mensaje);
             }
         }
+#region Comentarios
         /*[TestMethod]
         public void TestModificar()
         {
@@ -174,5 +175,132 @@ namespace CFFLORES.TestRest
         }
 
         */
+#endregion
+
+        [TestMethod]
+        public void TestGrabarPedido()
+        {
+            Pedido pedido = new Pedido()
+            {
+                idLocal = 4,
+                idUsuario = 2,
+                estadoPedido = "1",
+                tiempoEsperado = "05:00"
+            };
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string postdata = serializer.Serialize(pedido);
+            byte[] data = Encoding.UTF8.GetBytes(postdata);
+            HttpWebRequest req = (HttpWebRequest)WebRequest
+                .Create("http://localhost:11110/ServiceBares.svc/Pedido");
+            req.Method = "POST";
+            req.ContentLength = data.Length;
+            req.ContentType = "application/json";
+            var reqStream = req.GetRequestStream();
+            reqStream.Write(data, 0, data.Length);
+            HttpWebResponse res = null;
+            int pedidoInsertado = -1;
+            try
+            {
+                res = (HttpWebResponse)req.GetResponse();
+                StreamReader reader = new StreamReader(res.GetResponseStream());
+                string resultJson = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                pedidoInsertado = js.Deserialize<int>(resultJson);
+
+                Assert.AreNotEqual(pedidoInsertado, 0);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("", mensaje);
+            }
+
+
+        }
+
+        [TestMethod]
+        public void TestActualizarPedido()
+        {
+            Pedido pedido = new Pedido()
+            {
+                idPedido = 5,
+                tiempoAtendido = "05:00"
+            };
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string postdata = serializer.Serialize(pedido);
+            byte[] data = Encoding.UTF8.GetBytes(postdata);
+            HttpWebRequest req = (HttpWebRequest)WebRequest
+                .Create("http://localhost:11110/ServiceBares.svc/Pedido");
+            req.Method = "PUT";
+            req.ContentLength = data.Length;
+            req.ContentType = "application/json";
+            var reqStream = req.GetRequestStream();
+            reqStream.Write(data, 0, data.Length);
+            HttpWebResponse res = null;
+            int pedidoActualizado = -1;
+            try
+            {
+                res = (HttpWebResponse)req.GetResponse();
+                StreamReader reader = new StreamReader(res.GetResponseStream());
+                string resultJson = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                pedidoActualizado = js.Deserialize<int>(resultJson);
+
+                Assert.AreNotEqual(pedidoActualizado, 0);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("", mensaje);
+            }
+
+
+        }
+
+        [TestMethod]
+        public void TestAnularPedido()
+        {
+            int idPedido = 6;
+
+            HttpWebRequest req = (HttpWebRequest)WebRequest
+                .Create("http://localhost:11110/ServiceBares.svc/Pedido/" + idPedido.ToString());
+            req.Method = "DELETE";
+            HttpWebResponse res = null;
+            int pedidoAnulado = -1;
+            try
+            {
+                res = (HttpWebResponse)req.GetResponse();
+                StreamReader reader = new StreamReader(res.GetResponseStream());
+                string resultJson = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                pedidoAnulado = js.Deserialize<int>(resultJson);
+
+                Assert.AreNotEqual(pedidoAnulado, 0);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("", mensaje);
+            }
+
+
+        }
     }
 }
