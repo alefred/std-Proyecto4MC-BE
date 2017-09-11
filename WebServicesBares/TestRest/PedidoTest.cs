@@ -17,8 +17,8 @@ namespace CFFLORES.TestRest
         {
 
             string busqueda = "1";
-            string valor = "25260";
-            string fecha = "20170909";
+            string valor = "1";
+            string fecha = "20170911";
             string local = "1";
             try
             {
@@ -181,8 +181,8 @@ namespace CFFLORES.TestRest
         {
             Pedido pedido = new Pedido()
             {
-                idLocal = 4,
-                idUsuario = 2,
+                idLocal = 1,
+                idUsuario = 1,
                 estadoPedido = "1",
                 tiempoEsperado = "05:00"
             };
@@ -228,7 +228,7 @@ namespace CFFLORES.TestRest
         {
             Pedido pedido = new Pedido()
             {
-                idPedido = 5,
+                idPedido = 3,
                 tiempoAtendido = "05:00"
             };
 
@@ -271,7 +271,7 @@ namespace CFFLORES.TestRest
         [TestMethod]
         public void TestAnularPedido()
         {
-            int idPedido = 6;
+            int idPedido = 3;
 
             HttpWebRequest req = (HttpWebRequest)WebRequest
                 .Create("http://localhost:11110/ServiceBares.svc/Pedido/" + idPedido.ToString());
