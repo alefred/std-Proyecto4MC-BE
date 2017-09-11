@@ -16,3 +16,4 @@ C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\Microsoft.Visu
 C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\bin\Debug\es\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
 C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\CFFLORES.TestRest.dll
 C:\Repositorio\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\CFFLORES.TestRest.pdb
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\TestRest\obj\Debug\Bares.TestRest.csprojResolveAssemblyReference.cache

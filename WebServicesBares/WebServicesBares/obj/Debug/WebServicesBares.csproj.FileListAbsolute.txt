@@ -14,3 +14,4 @@ C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesB
 C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\bin\WebServicesBares.pdb
 C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.dll
 C:\Repositorio\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.pdb
+C:\DEV\VisualStudio\Repos\Proyecto4MC-BE\WebServicesBares\WebServicesBares\obj\Debug\WebServicesBares.csprojResolveAssemblyReference.cache
