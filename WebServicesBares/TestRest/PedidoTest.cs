@@ -60,7 +60,6 @@ namespace CFFLORES.TestRest
                     Assert.AreEqual("No Existe la Venta según los parámetros ingresados", mensaje);
             }
         }
-#region Comentarios
         /*[TestMethod]
         public void TestModificar()
         {
@@ -175,7 +174,7 @@ namespace CFFLORES.TestRest
         }
 
         */
-#endregion
+
 
         [TestMethod]
         public void TestGrabarPedido()
