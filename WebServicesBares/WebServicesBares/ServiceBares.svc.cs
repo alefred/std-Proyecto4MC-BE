@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Text;
 using WebServicesBares.Dominio;
 using WebServicesBares.Persistencia;
 
@@ -16,12 +13,13 @@ namespace WebServicesBares
     public class    Pedido : IServiceBares
     {
         private DAOPedido daopedido = new DAOPedido();
+        private DAOPedidoDetalle daopedidoDetalle = new DAOPedidoDetalle();
         private DAOUsuario daoUsuario = new DAOUsuario();
         private DAOProducto daoProducto = new DAOProducto();
         private DAOLocal daoLocal = new DAOLocal();
 
         #region "Pedido"
-        public List<EPedido> ListarPedido(string busqueda, string Valor, string fecha, string local)
+        public List<EOrder> ListarPedido(string busqueda, string Valor, string fecha, string local)
         {
             /*
              busqueda:
@@ -43,7 +41,7 @@ namespace WebServicesBares
                 throw new WebFaultException<string>("La Búsqueda por Serie debe contener 5 Caracteres", HttpStatusCode.InternalServerError);
             }
             */
-            List<EPedido> obobVenta = new List<EPedido>();
+            List<EOrder> obobVenta = new List<EOrder>();
             obobVenta = daopedido.Listar(busqueda, local, Valor, fecha);
 
             if (obobVenta.Count == 0)
@@ -51,24 +49,23 @@ namespace WebServicesBares
                 throw new WebFaultException<string>("No Existe la Venta según los parámetros ingresados", HttpStatusCode.InternalServerError);
 
             }
-
-
-
             return obobVenta;
-
-
         }
 
-        public int InsertarPedido(EPedido beventa)
+        public EOrder InsertarPedido(EOrder beventa)
         {
+            EOrder nuevoPedido = null;
+
+            if (beventa == null)
+            {
+                throw new WebFaultException<string>("Entidad no valida", HttpStatusCode.InternalServerError);
+            }
+
             try
             {
-                if (beventa == null)
-                    return 0;
 
-                int idventa;
-                idventa = daopedido.Insertar(beventa);
-                return idventa;
+                nuevoPedido = daopedido.Insertar(beventa);
+                return nuevoPedido;
             }
             catch (WebException ex)
             {
@@ -76,16 +73,19 @@ namespace WebServicesBares
             }
         }
 
-        public int UpdatePedido(EPedido beventa)
+        public EOrder UpdatePedido(EOrder beventa)
         {
+            EOrder pedidoActualizado = null;
+
             try
             {
                 if (beventa == null)
-                    return 0;
+                {
+                    throw new WebFaultException<string>("Entidad no valida", HttpStatusCode.InternalServerError);
+                }
 
-                int iRowsUpdate = -1;
-                iRowsUpdate = daopedido.Update(beventa);
-                return iRowsUpdate;
+                pedidoActualizado = daopedido.Update(beventa);
+                return pedidoActualizado;
             }
             catch (WebException ex)
             {
@@ -93,20 +93,20 @@ namespace WebServicesBares
             }
         }
 
-        public int AnularPedido(string codigo)
+        public EOrder AnularPedido(string codigo)
         {
+            EOrder pedidoAnulado = null;
+
             try
             {
                 int id = 0;
 
-                int.TryParse(codigo, out id);
+                if (int.TryParse(codigo, out id))
+                {
+                    pedidoAnulado = daopedido.Anular(id);
+                }
 
-                if (id == 0)
-                    return 0;
-
-                int idAnulado = -1;
-                idAnulado = daopedido.Anular(id);
-                return idAnulado;
+                return pedidoAnulado;
             }
             catch (WebException ex)
             {
@@ -116,82 +116,174 @@ namespace WebServicesBares
 
         #endregion
 
-        public List<EUsuario> ListarUsuario(string busqueda)
+        #region "Detalle de pedido"
+
+        public List<EOrderDetail> ListarDetallePedido(string orderId)
         {
-            List<EUsuario> oboUsuario = new List<EUsuario>();
-            oboUsuario = daoUsuario.Listar(busqueda);
-
-            if (oboUsuario.Count == 0)
+            int iorderId = 0;
+            try
             {
-                throw new WebFaultException<string>("No Existe el Usuario según los parámetros ingresados", HttpStatusCode.InternalServerError);
+                List<EOrderDetail> obobVentaDetalle = null;
+                if (int.TryParse(orderId, out iorderId))
+                {
+                    obobVentaDetalle = daopedidoDetalle.GetDetalleByOrderId(iorderId);
+                }
 
+                if (obobVentaDetalle.Count == 0)
+                {
+                    throw new WebFaultException<string>("No Existe el detalle de la venta según los parámetros ingresados", HttpStatusCode.InternalServerError);
+                }
+                return obobVentaDetalle;
+            }
+            catch (WebException ex)
+            {
+                throw new WebFaultException<string>(ex.ToString(), HttpStatusCode.InternalServerError);
             }
 
-
-
-            return oboUsuario;
         }
 
-        public int InsertarUsuario(EUsuario beusuario)
+        public int insertarDetallePedido(EOrderDetail beventadetalle)
         {
+            try
+            {
+                if (beventadetalle == null)
+                    return 0;
+
+                int iRows = -1;
+                iRows = daopedidoDetalle.Insertar(beventadetalle);
+                return iRows;
+            }
+            catch (WebException ex)
+            {
+                throw new WebFaultException<string>(ex.ToString(), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        #endregion
+
+        #region "Usuario"
+
+        //OK
+        public EUser Login(string username, string password, string type)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new WebFaultException<string>("Ingresar usuario", HttpStatusCode.InternalServerError);
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new WebFaultException<string>("Ingresar password", HttpStatusCode.InternalServerError);
+            }
+
+            if (string.IsNullOrEmpty(type))
+            {
+                type = "1";
+            }
+
+            EUser usuarioLogueado;
+            try
+            {
+                usuarioLogueado = daoUsuario.Login(username, password, type);
+            }
+            catch (Exception ex)
+            {
+                throw new WebFaultException<string>(ex.Message, HttpStatusCode.InternalServerError);
+            }
+            return usuarioLogueado;
+        }
+
+        public EUser InsertarUsuario(EUser oUser)
+        {
+
+            if (oUser == null)
+            {
+                throw new WebFaultException<string>("Entidad no valida", HttpStatusCode.InternalServerError);
+            }
+
+            if (String.IsNullOrEmpty(oUser.lastName) || String.IsNullOrEmpty(oUser.firstName))
+            {
+                throw new WebFaultException<string>("Debe ingresar apellidos y nombres", HttpStatusCode.InternalServerError);
+            }
+
+            if (String.IsNullOrEmpty(oUser.documentNumber))
+            {
+                throw new WebFaultException<string>("Debe ingresar el numero de documento", HttpStatusCode.InternalServerError);
+            }
+
+            if (String.IsNullOrEmpty(oUser.email))
+            {
+                throw new WebFaultException<string>("Debe ingresar email válido", HttpStatusCode.InternalServerError);
+            }
 
             try
             {
-                if (beusuario == null)
-                    return 0;
-
-                if (String.IsNullOrEmpty(beusuario.nroDocumento))
-                {
-                    throw new WebFaultException<string>("Debe ingresar el Cliente", HttpStatusCode.InternalServerError);
-
-                }
-
-                int idusuario;
-                idusuario = daoUsuario.Insertar(beusuario);
-                return idusuario;
+                EUser usuarioRegistrado;
+                usuarioRegistrado = daoUsuario.Insertar(oUser);
+                return usuarioRegistrado;
             }
             catch (WebException ex)
             {
                 throw new WebFaultException<string>(ex.ToString(), HttpStatusCode.InternalServerError);
 
             }
-
-
         }
 
-        public List<EProducto> ListarProducto(string local)
+        #endregion
+
+        #region "Local"
+
+        public List<EPub> ListarLocal(string name)
         {
-            List<EProducto> oboProducto = new List<EProducto>();
-            oboProducto = daoProducto.Listar(local);
+            List<EPub> oboLocal = null;
 
-            if (oboProducto.Count == 0)
+            try
             {
-                throw new WebFaultException<string>("No Existe hay PRoductos del Local", HttpStatusCode.InternalServerError);
-
+                oboLocal = daoLocal.Listar(name);
             }
-
-
-
-            return oboProducto;
-        }
-
-
-        public List<ELocal> ListarLocal()
-        {
-            List<ELocal> oboLocal= new List<ELocal>();
-            oboLocal = daoLocal.Listar();
-
-            if (oboLocal.Count == 0)
+            catch (Exception ex)
             {
-                throw new WebFaultException<string>("No Existe hay Locales del Local", HttpStatusCode.InternalServerError);
-
+                throw new WebFaultException<string>(ex.Message, HttpStatusCode.InternalServerError);
             }
-
-
 
             return oboLocal;
         }
 
+        #endregion
 
+        #region "Producto"
+
+        public List<EProduct> ListarProducto(string local, string tipo)
+        {
+            List<EProduct> oboProducto = null;
+            int iLocal = 0;
+
+
+            if (String.IsNullOrEmpty(local))
+            {
+                throw new WebFaultException<string>("Debe ingresar el local a consultar", HttpStatusCode.InternalServerError);
+            }
+
+            if (String.IsNullOrEmpty(tipo))
+            {
+                throw new WebFaultException<string>("Debe ingresar el tipo de producto", HttpStatusCode.InternalServerError);
+            }
+
+            try
+            {
+                if (int.TryParse(local, out iLocal))
+                {
+                    oboProducto = daoProducto.Listar(iLocal, tipo);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new WebFaultException<string>(ex.Message, HttpStatusCode.InternalServerError);
+            }
+
+            return oboProducto;
+        }
+
+        #endregion
     }
 }

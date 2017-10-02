@@ -7,25 +7,25 @@ using System.Web;
 namespace WebServicesBares.Dominio
 {
     [DataContract]
-    public class ELocal
+    public class EPub
     {
         [DataMember]
-        public int idLocal { get; set; }
+        public int id { get; set; }
         [DataMember]
-        public string nombreLocal { get; set; }
+        public string name { get; set; }
         [DataMember]
         public string ruc { get; set; }
         [DataMember]
-        public string direccion { get; set; }
+        public string address { get; set; }
         [DataMember]
-        public string telefono { get; set; }
+        public string phoneNumber { get; set; }
         [DataMember]
         public string email { get; set; }
         [DataMember]
-        public string descripcion { get; set; }
+        public string description { get; set; }
         [DataMember]
-        public string UbiLonguitud { get; set; }
+        public string longitude { get; set; }
         [DataMember]
-        public string UbiLatitud { get; set; }
+        public string latitude { get; set; }
     }
 }

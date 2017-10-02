@@ -7,22 +7,22 @@ using System.Web;
 namespace WebServicesBares.Dominio
 {
     [DataContract]
-    public class EPedido
+    public class EOrder
     {
         [DataMember]
-        public int idPedido { get; set; }
+        public int id { get; set; }
         [DataMember]
-        public int idUsuario { get; set; }
+        public int userId { get; set; }
         [DataMember]
-        public int idLocal { get; set; }
+        public int pubId { get; set; }
         [DataMember]
-        public DateTime fechaPedido { get; set; }
+        public DateTime orderDate { get; set; }
         [DataMember]
-        public string estadoPedido { get; set; }
+        public string status { get; set; }
         [DataMember]
-        public string tiempoEsperado { get; set; }
+        public string waitTime { get; set; }
         [DataMember]
-        public string tiempoAtendido { get; set; }
+        public string attentionTime { get; set; }
 
     }
 }

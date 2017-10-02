@@ -12,33 +12,37 @@ namespace WebServicesBares.Persistencia
     {
         private static string cadenaconexion = ConfigurationManager.ConnectionStrings["CnxBDAppBar"].ToString();
 
-        public List<ELocal> Listar()
+        public List<EPub> Listar(string name)
         {
-            List<ELocal> lista = new List<ELocal>();
+            List<EPub> lista = new List<EPub>();
 
-            string sql = "SELECT * FROM Local ";
+            string sql = "SELECT P.PubId,P.Name,P.Description,P.Ruc,P.Address,P.PhoneNumber,P.Email,P.Latitude,P.Longitude " +
+                        "FROM Pubs P Where((@name = '') OR(UPPER(P.Name) like '%' + UPPER(@name))) ";
 
             try
             {
                 using (SqlConnection con = new SqlConnection(cadenaconexion))
                 {
-                    con.Open();
                     using (SqlCommand com = new SqlCommand(sql, con))
                     {
+                        com.Parameters.Add(new SqlParameter("@name", name));
+
+                        con.Open();
                         using (SqlDataReader dr = com.ExecuteReader())
                         {
                             while (dr.Read())
                             {
-                                ELocal ve = new ELocal();
+                                EPub ve = new EPub();
 
-                                ve.idLocal = Convert.ToInt32(dr[0]);
-                                ve.nombreLocal = dr[1].ToString();
-                                ve.ruc = dr[2].ToString();
-                                ve.direccion = dr[3].ToString();
-                                ve.telefono = dr[4].ToString();
-                                ve.descripcion = dr[5].ToString();
-                                ve.UbiLonguitud = dr[6].ToString();
-                                ve.UbiLatitud = dr[7].ToString();
+                                ve.id = Convert.ToInt32(dr[0]);
+                                ve.name = dr[1].ToString();
+                                ve.description = dr[2].ToString();
+                                ve.ruc = dr[3].ToString();
+                                ve.address = dr[4].ToString();
+                                ve.phoneNumber = dr[5].ToString();
+                                ve.email = dr[6].ToString();
+                                ve.latitude = dr[7].ToString();
+                                ve.longitude = dr[8].ToString();
                                 lista.Add(ve);
                             }
                             dr.Close();

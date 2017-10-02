@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using WebServicesBares.Dominio;
 
 namespace WebServicesBares.Persistencia
@@ -12,11 +9,16 @@ namespace WebServicesBares.Persistencia
     {
         private static string cadenaconexion = ConfigurationManager.ConnectionStrings["CnxBDAppBar"].ToString();
 
-        public List<EUsuario> Listar(string busqueda)
+        public EUser Insertar(EUser eusuario)
         {
-            List<EUsuario> lista = new List<EUsuario>();
+            EUser usuarioCreado = null;
+            int idUsuario = 0;
+            string sql;
 
-            string sql = "SELECT * FROM Usuario where  IdUsuario = " + busqueda;
+            sql = " INSERT INTO [Users]([LastName],[FirstName], " +
+                    " [Email],[PhoneNunber],[DocumentNumber],[Type],[Password],[PostDate]) " +
+                    " values(@lastname, @firstname , @email, @phoneNumber, @documentNumber, " +
+                    "@type, @password, Getdate()) ";
 
             try
             {
@@ -25,77 +27,32 @@ namespace WebServicesBares.Persistencia
                     con.Open();
                     using (SqlCommand com = new SqlCommand(sql, con))
                     {
-                        using (SqlDataReader dr = com.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                EUsuario ve = new EUsuario();
-
-                                ve.idUsuario = Convert.ToInt32(dr[0]);
-                                ve.nombreCompleto = dr[1].ToString();
-                                ve.email = dr[2].ToString();
-                                ve.telefono = dr[3].ToString();
-                                ve.fechaRegistro = Convert.ToDateTime(dr[4]);
-                                ve.nroDocumento = dr[5].ToString();
-                                ve.password = dr[6].ToString();
-                                ve.tipoUsuario = dr[7].ToString();
-                                lista.Add(ve);
-                            }
-                            dr.Close();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return lista;
-        }
-
-
-        public int Insertar(EUsuario eusuario)
-        {
-
-            string sql = "insert into Usuario ([nombreCompleto],[email],[telefono],[fechaRegistro],[nroDocumento],[password],[tipoUsuario])  values (@nombreCompleto, @email, @telefono, @fechaRegistro, @nroDocumento, @password, @tipoUsuario)";
-
-            int idusuario = 0;
-
-            try
-            {
-                using (SqlConnection con = new SqlConnection(cadenaconexion))
-                {
-                    con.Open();
-                    using (SqlCommand com = new SqlCommand(sql, con))
-                    {
-                        com.Parameters.Add(new SqlParameter("@nombreCompleto", eusuario.nombreCompleto));
+                        com.Parameters.Add(new SqlParameter("@lastname", eusuario.lastName));
+                        com.Parameters.Add(new SqlParameter("@firstname", eusuario.firstName));
                         com.Parameters.Add(new SqlParameter("@email", eusuario.email));
-                        com.Parameters.Add(new SqlParameter("@telefono", eusuario.telefono));
-                        com.Parameters.Add(new SqlParameter("@fechaRegistro", eusuario.fechaRegistro));
-                        com.Parameters.Add(new SqlParameter("@nroDocumento", eusuario.nroDocumento));
+                        com.Parameters.Add(new SqlParameter("@phoneNumber", eusuario.phoneNumber));
+                        com.Parameters.Add(new SqlParameter("@documentNumber", eusuario.documentNumber));
+                        com.Parameters.Add(new SqlParameter("@type", eusuario.type));
                         com.Parameters.Add(new SqlParameter("@password", eusuario.password));
-                        com.Parameters.Add(new SqlParameter("@tipoUsuario", eusuario.tipoUsuario));
                         com.ExecuteNonQuery();
-
                     }
 
-                    using (SqlCommand com = new SqlCommand("select max(idventa) from Usuario", con))
+                    using (SqlCommand com = new SqlCommand("Select @id = SCOPE_IDENTITY()", con))
                     {
                         using (SqlDataReader dr = com.ExecuteReader())
                         {
                             while (dr.Read())
                             {
-                                idusuario = Convert.ToInt32(dr[0]);
+                                idUsuario = Convert.ToInt32(dr[0]);
                             }
                             dr.Close();
                         }
-
                     }
 
-                }
-                return idusuario;
+                    usuarioCreado = GetUserById(idUsuario);
 
+                }
+                return usuarioCreado;
             }
             catch (Exception ex)
             {
@@ -103,6 +60,115 @@ namespace WebServicesBares.Persistencia
             }
 
         }
+
+        public EUser GetUserById(int id)
+        {
+            EUser usuario = null;
+
+            string sql = "SELECT U.UserId, U.LastName, U.FirstName, U.Email, " +
+                        " U.PhoneNunber, U.DocumentNumber, U.Type, U.PostDate " +
+                        " FROM Users U where UserId = " + id;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaconexion))
+                {
+                    using (SqlCommand com = new SqlCommand(sql, con))
+                    {
+                        con.Open();
+                        using (SqlDataReader dr = com.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                usuario = new EUser();
+
+                                usuario.id = Convert.ToInt32(dr[0]);
+                                usuario.lastName = dr[1].ToString();
+                                usuario.firstName = dr[2].ToString();
+                                usuario.email = dr[3].ToString();
+                                usuario.phoneNumber = dr[4].ToString();
+                                usuario.documentNumber = dr[5].ToString();
+                                usuario.type = dr[6].ToString();
+                                usuario.postDate = Convert.ToDateTime(dr[7]);
+                            }
+
+                            dr.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuario;
+        }
+
+        #region "Login"
+
+        public EUser Login(string usuario, string password, string tipo)
+        {
+            EUser usuarioLogeado = null;
+            string sql = string.Empty;
+            string sql1 = string.Empty;
+            string getValue = string.Empty;
+            int result = 0;
+
+            sql = "select count(1) " +
+            " from Users u where UPPER(u.DocumentNumber) = " + usuario.ToUpper() +
+            " and UPPER(u.Password) = " + password +
+            " and u.type = " + tipo;
+
+            sql1 = "select u.UserId " +
+            " from Users u where UPPER(u.DocumentNumber) = " + usuario.ToUpper() +
+            " and UPPER(u.Password) = " + password +
+            " and u.type = " + tipo;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaconexion))
+                {
+                    using (SqlCommand com = new SqlCommand(sql, con))
+                    {
+                        con.Open();
+                        getValue = com.ExecuteScalar().ToString();
+
+                        if (getValue != null)
+                        {
+                            result = Convert.ToInt32(getValue.ToString());
+                        }
+                    }
+                }
+
+                if (result == 1) //Se encontro registros
+                {
+                    using (SqlConnection con = new SqlConnection(cadenaconexion))
+                    {
+                        using (SqlCommand com = new SqlCommand(sql1, con))
+                        {
+                            con.Open();
+                            getValue = com.ExecuteScalar().ToString();
+
+                            if (getValue != null)
+                            {
+                                result = Convert.ToInt32(getValue.ToString());
+                                usuarioLogeado = GetUserById(result);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return usuarioLogeado;
+        }
+
+        #endregion
 
     }
 }

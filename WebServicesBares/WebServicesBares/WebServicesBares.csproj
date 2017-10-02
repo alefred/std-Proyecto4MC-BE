@@ -64,12 +64,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dominio\EPedido.cs" />
-    <Compile Include="Dominio\EProducto.cs" />
-    <Compile Include="Dominio\EUsuario.cs" />
-    <Compile Include="Dominio\ELocal.cs" />
+    <Compile Include="Dominio\EOrderDetail.cs" />
+    <Compile Include="Dominio\EOrder.cs" />
+    <Compile Include="Dominio\EProduct.cs" />
+    <Compile Include="Dominio\EUser.cs" />
+    <Compile Include="Dominio\EPub.cs" />
     <Compile Include="Persistencia\DAOLocal.cs" />
     <Compile Include="Persistencia\DAOPedido.cs" />
+    <Compile Include="Persistencia\DAOPedidoDetalle.cs" />
     <Compile Include="Persistencia\DAOProducto.cs" />
     <Compile Include="Persistencia\DAOUsuario.cs" />
     <Compile Include="ServiceBares.svc.cs">
