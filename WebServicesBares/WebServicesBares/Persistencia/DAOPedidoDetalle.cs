@@ -46,7 +46,7 @@ namespace WebServicesBares.Persistencia
         public List<EOrderDetail> GetDetalleByOrderId(int id)
         {
 
-            List<EOrderDetail> lista = null;
+            List<EOrderDetail> lista = new List<EOrderDetail>(); ;
 
             string sql = " SELECT SOD.SalesOrderDetailId,SOD.SalesOrderId,SOD.ProductId,SOD.UnitPrice,SOD.Quantity " +
             " FROM SalesOrderDetails SOD " +

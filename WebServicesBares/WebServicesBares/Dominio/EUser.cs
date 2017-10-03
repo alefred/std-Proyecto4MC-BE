@@ -9,6 +9,7 @@ namespace WebServicesBares.Dominio
     [DataContract]
     public class EUser
     {
+        private string _fullname;
         [DataMember]
         public int id { get; set; }
         [DataMember]
@@ -16,7 +17,7 @@ namespace WebServicesBares.Dominio
         [DataMember]
         public string firstName { get; set; }
         [DataMember]
-        public string fullName { get { return string.Concat(lastName, ", ", firstName); } }
+        public string fullName { get { return string.Concat(lastName, ", ", firstName); } set { _fullname = value;}}
         [DataMember]
         public string email { get; set; }
         [DataMember]

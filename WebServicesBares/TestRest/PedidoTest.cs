@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CFFLORES.TestRest
+namespace TestRest
 {
     [TestClass]
     public class PedidoTest
@@ -35,12 +35,12 @@ namespace CFFLORES.TestRest
                 StreamReader reader = new StreamReader(res.GetResponseStream());
                 string clienteJson = reader.ReadToEnd();
                 JavaScriptSerializer JsonConvert = new JavaScriptSerializer();
-                List<Pedido> registros = new List<Pedido>();
-                registros = JsonConvert.Deserialize<List<Pedido>>(clienteJson);
+                List<EOrder> registros = new List<EOrder>();
+                registros = JsonConvert.Deserialize<List<EOrder>>(clienteJson);
 
                 foreach (var value in registros)
                 {
-                    Assert.AreEqual(valor, value.idPedido);
+                    Assert.AreEqual(valor, value.id);
                 }
 
             }
@@ -175,16 +175,15 @@ namespace CFFLORES.TestRest
 
         */
 
-
         [TestMethod]
         public void TestGrabarPedido()
         {
-            Pedido pedido = new Pedido()
+            EOrder pedido = new EOrder()
             {
-                idLocal = 1,
-                idUsuario = 1,
-                estadoPedido = "1",
-                tiempoEsperado = "05:00"
+                pubId = 1,
+                userId = 1,
+                status = "1",
+                waitTime = "05:00"
             };
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -219,17 +218,15 @@ namespace CFFLORES.TestRest
                 string mensaje = js.Deserialize<string>(error);
                 Assert.AreEqual("", mensaje);
             }
-
-
         }
 
         [TestMethod]
         public void TestActualizarPedido()
         {
-            Pedido pedido = new Pedido()
+            EOrder pedido = new EOrder()
             {
-                idPedido = 3,
-                tiempoAtendido = "05:00"
+                id = 3,
+                waitTime = "05:00"
             };
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -264,8 +261,6 @@ namespace CFFLORES.TestRest
                 string mensaje = js.Deserialize<string>(error);
                 Assert.AreEqual("", mensaje);
             }
-
-
         }
 
         [TestMethod]
@@ -301,5 +296,47 @@ namespace CFFLORES.TestRest
 
 
         }
+
     }
+
+    [TestClass]
+    public class UsuarioTest
+    {
+        [TestMethod]
+        public void TestLogin()
+        {
+            string usuario = "45785421";
+            string password = "123";
+            string tipo = "1";
+
+            string URLAuth = "http://localhost:11110/ServiceBares.svc/User?username=" + usuario + "&password=" + password + "&type=" + tipo;
+
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(URLAuth);
+            req.Method = "GET";
+            req.KeepAlive = false;
+            EUser registros = null;
+            try
+            {
+                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+                StreamReader reader = new StreamReader(res.GetResponseStream());
+                string stringJson = reader.ReadToEnd();
+                JavaScriptSerializer JsonConvert = new JavaScriptSerializer();
+                registros = JsonConvert.Deserialize<EUser>(stringJson);
+
+                Assert.IsNotNull(registros);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("", mensaje);
+            }
+        }
+
+    }
+
 }

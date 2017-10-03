@@ -18,7 +18,7 @@ namespace WebServicesBares.Persistencia
             sql = " INSERT INTO [Users]([LastName],[FirstName], " +
                     " [Email],[PhoneNunber],[DocumentNumber],[Type],[Password],[PostDate]) " +
                     " values(@lastname, @firstname , @email, @phoneNumber, @documentNumber, " +
-                    "@type, @password, Getdate()) ";
+                    "@type, @password, Getdate()); Select SCOPE_IDENTITY();";
 
             try
             {
@@ -34,19 +34,7 @@ namespace WebServicesBares.Persistencia
                         com.Parameters.Add(new SqlParameter("@documentNumber", eusuario.documentNumber));
                         com.Parameters.Add(new SqlParameter("@type", eusuario.type));
                         com.Parameters.Add(new SqlParameter("@password", eusuario.password));
-                        com.ExecuteNonQuery();
-                    }
-
-                    using (SqlCommand com = new SqlCommand("Select @id = SCOPE_IDENTITY()", con))
-                    {
-                        using (SqlDataReader dr = com.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                idUsuario = Convert.ToInt32(dr[0]);
-                            }
-                            dr.Close();
-                        }
+                        idUsuario  = Convert.ToInt32(com.ExecuteScalar());
                     }
 
                     usuarioCreado = GetUserById(idUsuario);

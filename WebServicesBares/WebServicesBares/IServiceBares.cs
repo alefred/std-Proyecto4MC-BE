@@ -61,7 +61,7 @@ namespace WebServicesBares
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Pub?name={name}", ResponseFormat = WebMessageFormat.Json)]
-        List<EPub> ListarLocal(string name);
+        List<EPub> ListarLocal(string name); //OK
 
         #endregion
 
@@ -69,7 +69,7 @@ namespace WebServicesBares
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Product?pub={local}&type={tipo}", ResponseFormat = WebMessageFormat.Json)]
-        List<EProduct> ListarProducto(string local, string tipo);
+        List<EProduct> ListarProducto(string local, string tipo); //OK
 
         #endregion
 

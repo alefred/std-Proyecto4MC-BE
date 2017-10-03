@@ -71,7 +71,7 @@ namespace WebServicesBares.Persistencia
         public EOrder Insertar(EOrder venta)
         {
             string sql = " INSERT INTO SalesOrders(UserId, PubId, OrderDate, Status, WaitTime) " +
-                " VALUES(@UserId, @PubId, GETDATE(), '1', @WaitTime) ";
+                " VALUES(@UserId, @PubId, GETDATE(), '1', @WaitTime); Select SCOPE_IDENTITY(); ";
 
             EOrder pedidoCreado = null;
             int idventa = 0;
@@ -86,21 +86,9 @@ namespace WebServicesBares.Persistencia
                         com.Parameters.Add(new SqlParameter("@UserId", venta.userId));
                         com.Parameters.Add(new SqlParameter("@PubId", venta.pubId));
                         com.Parameters.Add(new SqlParameter("@WaitTime", venta.waitTime));
-                        com.ExecuteNonQuery();
+                        idventa = Convert.ToInt32(com.ExecuteScalar());
                     }
 
-                    using (SqlCommand com = new SqlCommand("Select @id = SCOPE_IDENTITY()", con))
-                    {
-                        using (SqlDataReader dr = com.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                idventa = Convert.ToInt32(dr[0]);
-                            }
-                            dr.Close();
-                        }
-
-                    }
                     pedidoCreado = GetOrderById(idventa);
                 }
                 return pedidoCreado;
@@ -174,7 +162,7 @@ namespace WebServicesBares.Persistencia
         {
             EOrder order = null;
 
-            string sql = " Select SO.SalesOrderId, So.UserId, So.PubId, So.OrderDate, So.Status, So.WaitTime " +
+            string sql = " Select SO.SalesOrderId, So.UserId, So.PubId, So.OrderDate, So.Status, So.WaitTime, So.AtentionTime " +
             " from SalesOrders SO Where SO.SalesOrderId = " + id.ToString();
 
             try
@@ -196,6 +184,7 @@ namespace WebServicesBares.Persistencia
                                 order.orderDate = Convert.ToDateTime(dr[3]);
                                 order.status = dr[4].ToString();
                                 order.waitTime = dr[5].ToString();
+                                order.attentionTime = (dr[6] == DBNull.Value ? null : (string)dr[6]);
                             }
                             dr.Close();
                         }
