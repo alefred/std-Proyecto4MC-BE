@@ -1,2 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters />
+<parameters>
+  <parameter name="CnxBDAppBar-Web.config Connection String" description="CnxBDAppBar Connection String used in web.config by the application to access the database." defaultValue="Data Source=azrdb05.database.windows.net;Initial Catalog=arsdb05;Persist Security Info=True;User ID=admazrdb05;Password=Pa$$w0rd" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\DEV\\VisualStudio\\Repos\\Proyecto4MC-BE\\Proyecto4MC-BE\\WebServicesBares\\WebServicesBares\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CnxBDAppBar']/@connectionString" />
+  </parameter>
+</parameters>

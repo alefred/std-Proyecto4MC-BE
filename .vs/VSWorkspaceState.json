@@ -3,8 +3,9 @@
     "",
     "\\Base de Datos",
     "\\Base de Datos\\Scripts",
-    "\\WebServicesBares"
+    "\\WebServicesBares",
+    "\\WebServicesBares\\WebServicesBares"
   ],
-  "SelectedNode": "\\WebServicesBares\\WebServicesBares.sln",
+  "SelectedNode": "\\WebServicesBares\\WebServicesBares\\ServiceBares.svc.cs",
   "PreviewInSolutionExplorer": false
 }
