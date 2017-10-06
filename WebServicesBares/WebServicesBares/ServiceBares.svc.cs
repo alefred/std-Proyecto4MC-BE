@@ -193,6 +193,26 @@ namespace WebServicesBares
             return usuarioLogueado;
         }
 
+        public List<EUser> LoginId(string iduser)
+        {
+            int iiuserid = 0;
+            List<EUser> obobUSer = new List<EUser>();
+            try
+            {
+                if (int.TryParse(iduser, out iiuserid))
+                {
+                    obobUSer.Add(daoUsuario.GetUserById(iiuserid));
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new WebFaultException<string>(ex.Message, HttpStatusCode.InternalServerError);
+            }
+            return obobUSer;
+        }
+
         public EUser InsertarUsuario(EUser oUser)
         {
 
@@ -283,6 +303,31 @@ namespace WebServicesBares
 
             return oboProducto;
         }
+
+
+        public List<EProduct> ListarProductoID(string idproducto)
+        {
+            List<EProduct> oboProducto = null;
+            int iidproducto = 0;
+
+
+
+
+            try
+            {
+                if (int.TryParse(idproducto, out iidproducto))
+                {
+                    oboProducto = daoProducto.ListarID(iidproducto);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new WebFaultException<string>(ex.Message, HttpStatusCode.InternalServerError);
+            }
+
+            return oboProducto;
+        }
+
 
         #endregion
     }

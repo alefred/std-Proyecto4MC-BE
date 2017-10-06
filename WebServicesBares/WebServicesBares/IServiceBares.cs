@@ -52,6 +52,10 @@ namespace WebServicesBares
         EUser Login(string username, string password, string type);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "UserId?UserId={UserId}", ResponseFormat = WebMessageFormat.Json)]
+        List<EUser> LoginId(string UserId);
+
+        [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "User", ResponseFormat = WebMessageFormat.Json)]
         EUser InsertarUsuario(EUser oUser);
 
@@ -71,6 +75,10 @@ namespace WebServicesBares
         [WebInvoke(Method = "GET", UriTemplate = "Product?pub={local}&type={tipo}", ResponseFormat = WebMessageFormat.Json)]
         List<EProduct> ListarProducto(string local, string tipo); //OK
 
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Productid?ProductId={idproduct}", ResponseFormat = WebMessageFormat.Json)]
+        List<EProduct> ListarProductoID(string idproduct); //OK
         #endregion
 
     }
